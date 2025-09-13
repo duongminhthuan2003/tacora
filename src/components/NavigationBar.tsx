@@ -36,9 +36,9 @@ export default function NavigationBar() {
                     <HugeiconsIcon icon={Settings02Icon} size={24} color={`${location.pathname === "/settings" ? "white" : "black"}`} />
                 </Link>
 
-                <div className="flex-1 bg-tacora flex justify-center items-center rounded-xl">
-                    <HugeiconsIcon icon={Search01Icon} size={24} />
-                </div>
+                <Link to={"/search"} className={`flex-1 flex justify-center items-center rounded-xl ${location.pathname === "/search" ? "bg-tacora" : "bg-tacora-light"} transition-all`}>
+                    <HugeiconsIcon icon={Search01Icon} size={24} color={`${location.pathname === "/search" ? "white" : "black"}`} />
+                </Link>
             </div>
         </div>
     )

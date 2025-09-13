@@ -5,6 +5,7 @@ import TasksPage from './pages/TasksPage.tsx'
 import NavigationBar from "./components/NavigationBar.tsx";
 import { AnimatePresence } from "framer-motion";
 import { Routes, Route } from 'react-router-dom';
+import SearchPage from "./pages/SearchPage.tsx";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
                     <Route path="/" element={<HomePage />} />
                     <Route path="/tasks" element={<TasksPage />} />
                     <Route path="/settings" element={<SettingsPage />} />
+                    <Route path="/search" element={<SearchPage />} />
                 </Routes>
             </AnimatePresence>
         </div>
