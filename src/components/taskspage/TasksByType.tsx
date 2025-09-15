@@ -64,7 +64,7 @@ export default function TasksByType() {
             <div>
                 {tasksByType.map(({ type, tasks: typeTasks }) => (
                     <div key={type}>
-                        <div className="text-lg font-SFProSemibold my-3">
+                        <div className="text-lg font-SFProSemibold mb-1 mt-3">
                             {type}
                         </div>
                         <div className="flex flex-col gap-3">

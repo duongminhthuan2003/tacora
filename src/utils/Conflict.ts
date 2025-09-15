@@ -31,9 +31,8 @@ export function findConflicts(
             const deltaH =
                 (+new Date(sorted[j].dueAt) - +new Date(sorted[i].dueAt)) / 36e5;
 
-            if (deltaH > windowHours) break; // xa hơn cửa sổ -> dừng vòng j
+            if (deltaH > windowHours) break;
 
-            // Điều kiện “đáng báo”:
             const heavy =
                 Math.max(sorted[i].estimatedMins, sorted[j].estimatedMins) >=
                 minHeavyMins;

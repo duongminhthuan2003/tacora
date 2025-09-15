@@ -17,8 +17,9 @@ export default function EditTaskOverlay({ open, onClose, task }: EditTaskModalPr
     const [priority, setPriority] = useState<Priority>("Medium");
     const [type, setType] = useState<Type>("School");
     const [error, setError] = useState<string | null>(null);
-    
-    // Populate form when task changes
+    const [hint, setHint] = useState<{priority: 'Low'|'Medium'|'High'; estimatedMins: number; rationale: string} | null>(null);
+    const [loadingHint, setLoadingHint] = useState(false);
+
     useEffect(() => {
         if (task) {
             setTitle(task.title);
@@ -33,6 +34,45 @@ export default function EditTaskOverlay({ open, onClose, task }: EditTaskModalPr
             setError(null);
         }
     }, [task]);
+
+    async function fetchSuggestion(title: string, type: Type, deadlineLocal: string) {
+        if (!title || !type || !deadlineLocal) return;
+        setLoadingHint(true);
+        try {
+            const deadlineISO = new Date(deadlineLocal).toISOString();
+            const res = await fetch('/api/suggest', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ title, type, deadline: deadlineISO }),
+            });
+
+            if (!res.ok) {
+                const text = await res.text();
+                console.error('Suggest API error', res.status, text);
+                setHint(null);
+                return;
+            }
+
+            const data = await res.json();
+            if (!data.error) setHint(data);
+        } finally {
+            setLoadingHint(false);
+        }
+    }
+
+
+    useEffect(() => {
+        const id = setTimeout(() => {
+            if (title && type && dueAt) fetchSuggestion(title, type, dueAt);
+        }, 400);
+        return () => clearTimeout(id);
+    }, [title, type, dueAt]);
+
+    function applyHint() {
+        if (!hint) return;
+        setPriority(hint.priority);
+        setEstimatedMins(hint.estimatedMins);
+    }
 
     if (!open || !task) return null;
 
@@ -158,6 +198,17 @@ export default function EditTaskOverlay({ open, onClose, task }: EditTaskModalPr
                             </select>
                         </label>
                     </div>
+
+                    {hint && (
+                        <div className="rounded-xl border border-tacora p-4 text-sm font-SFProRegular">
+                            <div><b className="text-tacora">Tacora AI suggests:</b> Priority <u>{hint.priority}</u>, {hint.estimatedMins} mins</div>
+                            <div className="text-gray-500 font-SFProRegular">{hint.rationale}</div>
+                            <button type="button" onClick={applyHint} className="flex justify-center mt-1 rounded-lg bg-tacora mt-2 px-3 py-2 text-white">
+                                Apply
+                            </button>
+                        </div>
+                    )}
+                    {loadingHint && <div className="text-sm text-gray-500 font-SFProRegular">Suggesting…</div>}
 
                     <div className="mt-4 flex items-center justify-end gap-2">
                         <button

@@ -23,21 +23,25 @@ export default function NavigationBar() {
                 </p>
             </div>
 
-            <div className="w-full h-14 flex flex-row gap-2">
-                <Link to={"/"} className={`flex-1 flex justify-center items-center rounded-xl ${location.pathname === "/" ? "bg-tacora" : "bg-tacora-light"} transition-all`}>
+            <div className="w-full h-14 lg:h-64 flex flex-row gap-2 lg:flex-col">
+                <Link to={"/"} className={`flex-1 flex justify-center lg:justify-start px-0 lg:px-5 items-center rounded-xl ${location.pathname === "/" ? "bg-tacora" : "bg-tacora-light"} transition-all`}>
                     <HugeiconsIcon icon={Home09Icon} size={24} color={`${location.pathname === "/" ? "white" : "black"}`} />
+                    <p className={`font-SFPro-Regular hidden lg:block ml-3 ${location.pathname === "/" ? "text-white" : ""}`}>Home</p>
                 </Link>
 
-                <Link to={"/tasks"} className={`flex-1 flex justify-center items-center rounded-xl ${location.pathname === "/tasks" ? "bg-tacora" : "bg-tacora-light"} transition-all`}>
+                <Link to={"/tasks"} className={`flex-1 flex justify-center lg:justify-start px-0 lg:px-5 items-center rounded-xl ${location.pathname === "/tasks" ? "bg-tacora" : "bg-tacora-light"} transition-all`}>
                     <HugeiconsIcon icon={Task02Icon} size={24} color={`${location.pathname === "/tasks" ? "white" : "black"}`} />
+                    <p className={`font-SFPro-Regular hidden lg:block ml-3 ${location.pathname === "/tasks" ? "text-white" : ""}`}>Tasks</p>
                 </Link>
 
-                <Link to={"/settings"} className={`flex-1 flex justify-center items-center rounded-xl ${location.pathname === "/settings" ? "bg-tacora" : "bg-tacora-light"} transition-all`}>
+                <Link to={"/settings"} className={`flex-1 flex justify-center lg:justify-start px-0 lg:px-5 items-center rounded-xl ${location.pathname === "/settings" ? "bg-tacora" : "bg-tacora-light"} transition-all`}>
                     <HugeiconsIcon icon={Settings02Icon} size={24} color={`${location.pathname === "/settings" ? "white" : "black"}`} />
+                    <p className={`font-SFPro-Regular hidden lg:block ml-3 ${location.pathname === "/settings" ? "text-white" : ""}`}>Settings</p>
                 </Link>
 
-                <Link to={"/search"} className={`flex-1 flex justify-center items-center rounded-xl ${location.pathname === "/search" ? "bg-tacora" : "bg-tacora-light"} transition-all`}>
+                <Link to={"/search"} className={`flex-1 flex justify-center lg:justify-start px-0 lg:px-5 items-center rounded-xl ${location.pathname === "/search" ? "bg-tacora" : "bg-tacora-light"} transition-all`}>
                     <HugeiconsIcon icon={Search01Icon} size={24} color={`${location.pathname === "/search" ? "white" : "black"}`} />
+                    <p className={`font-SFPro-Regular hidden lg:block ml-3 ${location.pathname === "/search" ? "text-white" : ""}`}>Search</p>
                 </Link>
             </div>
         </div>

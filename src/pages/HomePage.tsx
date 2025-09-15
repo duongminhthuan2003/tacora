@@ -46,15 +46,15 @@ export default function HomePage() {
                     Summary
                 </p>
 
-                <div className="flex flex-col gap-3 mt-2 font-SFProRegular">
-                    <div className="flex flex-row gap-3 h-40">
+                <div className="flex flex-col gap-3 mt-2 h-80 lg:h-56 font-SFProRegular lg:flex-row">
+                    <div className="flex flex-row gap-3 flex-1">
                         <div className="flex flex-col flex-1 bg-[#4AA239] p-2 rounded-2xl">
                             <p className="ml-2 mt-1 text-white">
                                 Incoming
                             </p>
                             <div className="flex-1"></div>
                             <div className="w-full h-9/12 bg-white rounded-xl flex items-center justify-center">
-                                <div className="-mt-1">
+                                <div className="-mt-1 text-2xl">
                                     {counts.incoming}
                                 </div>
                             </div>
@@ -66,21 +66,21 @@ export default function HomePage() {
                             </p>
                             <div className="flex-1"></div>
                             <div className="w-full h-9/12 bg-white rounded-xl flex items-center justify-center">
-                                <div className="-mt-1">
+                                <div className="-mt-1 text-2xl">
                                     {counts.warning}
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div className="flex flex-row gap-3 h-40">
+                    <div className="flex flex-row gap-3 flex-1">
                         <div className="flex flex-col flex-1 bg-[#F86163] p-2 rounded-2xl">
                             <p className="ml-2 mt-1 text-white">
                                 Dangerous
                             </p>
                             <div className="flex-1"></div>
                             <div className="w-full h-9/12 bg-white rounded-xl flex items-center justify-center">
-                                <div className="-mt-1">
+                                <div className="-mt-1 text-2xl">
                                     {counts.dangerous}
                                 </div>
                             </div>
@@ -92,7 +92,7 @@ export default function HomePage() {
                             </p>
                             <div className="flex-1"></div>
                             <div className="w-full h-9/12 bg-white rounded-xl flex items-center justify-center">
-                                <div className="-mt-1">
+                                <div className="-mt-1 text-2xl">
                                     {counts.conflicting}
                                 </div>
                             </div>
@@ -105,7 +105,7 @@ export default function HomePage() {
                 <p className="font-SFProSemibold text-xl mt-8 mb-2">
                     Due soon
                 </p>
-                <div className="flex flex-col gap-3">
+                <div className="flex flex-col gap-3 md:grid md:grid-cols-2 xl:grid-cols-3">
                     {
                         sorted.map((t) => (
                             <div key={t.id}>

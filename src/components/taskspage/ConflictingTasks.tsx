@@ -4,19 +4,23 @@ import TaskCard from "../TaskCard.tsx";
 import { findConflicts } from "../../utils/Conflict.ts";
 import type { Task } from "../../types/TaskType.ts";
 import EditTaskOverlay from "../EditTaskOverlay.tsx";
+import { useSettingsStore } from "../../utils/SettingsStore.ts";
 
 export default function ConflictingTasks() {
     const tasks = useTaskStore(s => s.tasks);
+    const { conflictWindowHours, conflictMinHeavyMins, conflictMinPrioritySum } = useSettingsStore();
     const [editOpen, setEditOpen] = useState(false);
     const [editingTask, setEditingTask] = useState<Task | null>(null);
 
-    // Find all conflicting task IDs
     const conflictIds = useMemo(
-        () => findConflicts(tasks, { windowHours: 48, minHeavyMins: 45, minPrioritySum: 5 }),
-        [tasks]
+        () => findConflicts(tasks, {
+            windowHours: conflictWindowHours,
+            minHeavyMins: conflictMinHeavyMins,
+            minPrioritySum: conflictMinPrioritySum
+        }),
+        [tasks, conflictWindowHours, conflictMinHeavyMins, conflictMinPrioritySum]
     );
 
-    // Filter and sort conflicting tasks
     const conflictingTasks = useMemo(() => {
         const filtered = tasks.filter(task => conflictIds.has(task.id));
         return filtered.sort((a, b) => +new Date(a.dueAt) - +new Date(b.dueAt));
@@ -35,17 +39,16 @@ export default function ConflictingTasks() {
     if (conflictingTasks.length === 0) {
         return (
             <div className="rounded-xl border border-dashed p-6 text-center text-gray-500">
-                <div className="mb-2">🎉 No conflicting tasks!</div>
-                <div className="text-sm">Your schedule looks manageable.</div>
+                <div className="mb-2">No conflicting tasks!</div>
             </div>
         );
     }
 
     return (
-        <div>
+        <div className="font-SFProRegular">
             <div className="mb-3 p-3 bg-purple-50 border border-purple-200 rounded-xl">
                 <div className="flex items-center gap-2 mb-1">
-                    <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
+                    <div className="w-2 h-2 bg-conflicting rounded-full"></div>
                     <span className="font-SFProSemibold text-purple-800">
                         {conflictingTasks.length} Conflicting Task{conflictingTasks.length !== 1 ? 's' : ''}
                     </span>

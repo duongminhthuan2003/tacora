@@ -1,7 +1,8 @@
 // TaskCard.tsx
-import { useMemo } from "react";
-import { useTaskStore } from "../utils/TaskStore.ts";
+import { useMemo, useState } from "react";
 import type { Task } from "../types/TaskType.ts";
+import DeleteConfirmation from "./DeleteConfirmation.tsx";
+import UndoNotification from "./UndoNotification.tsx";
 
 type Status = "Incoming" | "Warning" | "Dangerous";
 
@@ -39,48 +40,84 @@ interface TaskCardProps {
 
 export default function TaskCard({ task, inConflict, onEdit }: TaskCardProps) {
     const status = useMemo(() => computeStatus(task.dueAt), [task.dueAt]);
+    const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+    const [showUndoNotification, setShowUndoNotification] = useState(false);
+    const [deletedTask, setDeletedTask] = useState<Task | null>(null);
 
-    const remove = useTaskStore(s => s.remove);
+    const handleDeleteClick = () => {
+        setShowDeleteConfirmation(true);
+    };
+
+    const handleCloseDeleteConfirmation = () => {
+        setShowDeleteConfirmation(false);
+    };
+
+    const handleDeleteConfirmed = (deletedTask: Task) => {
+        setDeletedTask(deletedTask);
+        setShowUndoNotification(true);
+        setShowDeleteConfirmation(false);
+    };
+
+    const handleCloseUndo = () => {
+        setShowUndoNotification(false);
+        setDeletedTask(null);
+    };
 
     return (
-        <div className="bg-tacora-light text-sm px-5 py-4 font-SFProRegular rounded-xl">
-            <div className="flex flex-row justify-center items-center">
-                <p className="text-lg font-SFProSemibold">{task.title}</p>
-                <div className="flex-1" />
-                <p className="bg-tacora text-white px-2.5 py-0.5 rounded-lg">{task.type}</p>
+        <>
+            <div className="bg-tacora-light text-sm px-5 py-4 font-SFProRegular rounded-xl">
+                <div className="flex flex-row justify-center items-center">
+                    <p className="text-lg font-SFProSemibold">{task.title}</p>
+                    <div className="flex-1" />
+                    <p className="bg-tacora text-white px-2.5 py-0.5 rounded-lg">{task.type}</p>
+                </div>
+
+                <div className="flex flex-row md:flex-col md:gap-0.5">
+                    <p>
+                        Due time: {new Date(task.dueAt).toLocaleDateString()} •{" "}
+                        {new Date(task.dueAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
+                    </p>
+                    <div className="flex-1" />
+                    <p>Estimated: {task.estimatedMins} mins</p>
+                </div>
+
+                <div className="mt-0.5">Priority: {task.priority}</div>
+
+                <div className="flex flex-row gap-2 mt-1">
+                    <StatusBadge status={status} />
+                    {inConflict && <ConflictingBadge />}
+
+                    <div className="flex-1" />
+
+                    <button
+                        onClick={() => onEdit?.(task)}
+                        className="flex justify-center items-center border-tacora border-2 px-2 w-14 py-0.5 rounded-lg"
+                    >
+                        Edit
+                    </button>
+
+                    <button
+                        onClick={handleDeleteClick}
+                        className="flex justify-center items-center bg-tacora px-2 w-15 py-0.5 rounded-lg text-white"
+                    >
+                        Delete
+                    </button>
+                </div>
             </div>
 
-            <div className="flex flex-row">
-                <p>
-                    Due time: {new Date(task.dueAt).toLocaleDateString()} •{" "}
-                    {new Date(task.dueAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
-                </p>
-                <div className="flex-1" />
-                <p>Estimated: {task.estimatedMins} mins</p>
-            </div>
+            <DeleteConfirmation
+                open={showDeleteConfirmation}
+                onClose={handleCloseDeleteConfirmation}
+                task={task}
+                onDeleteConfirmed={handleDeleteConfirmed}
+            />
 
-            <div className="mt-0.5">Priority: {task.priority}</div>
-
-            <div className="flex flex-row gap-2 mt-1">
-                <StatusBadge status={status} />
-                {inConflict && <ConflictingBadge />}
-
-                <div className="flex-1" />
-
-                <button
-                    onClick={() => onEdit?.(task)}
-                    className="flex justify-center items-center border-tacora border-2 px-2 w-14 py-0.5 rounded-lg"
-                >
-                    Edit
-                </button>
-
-                <button
-                    onClick={() => remove(task.id)}
-                    className="flex justify-center items-center bg-tacora px-2 w-15 py-0.5 rounded-lg text-white"
-                >
-                    Done
-                </button>
-            </div>
-        </div>
+            {showUndoNotification && (
+                <UndoNotification
+                    task={deletedTask}
+                    onClose={handleCloseUndo}
+                />
+            )}
+        </>
     );
 }

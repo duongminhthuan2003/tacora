@@ -33,7 +33,6 @@ export default function TasksByDate() {
     const [editOpen, setEditOpen] = useState(false);
     const [editingTask, setEditingTask] = useState<Task | null>(null);
 
-    // Group tasks by date
     const tasksByDate = useMemo(() => {
         const grouped: Record<string, Task[]> = {};
 
@@ -45,12 +44,10 @@ export default function TasksByDate() {
             grouped[dateKey].push(task);
         });
 
-        // Sort tasks within each date group by due time
         Object.keys(grouped).forEach(dateKey => {
             grouped[dateKey].sort((a, b) => +new Date(a.dueAt) - +new Date(b.dueAt));
         });
 
-        // Convert to array and sort by date
         return Object.entries(grouped)
             .sort(([dateA], [dateB]) => dateA.localeCompare(dateB))
             .map(([dateKey, tasks]) => ({
@@ -88,7 +85,7 @@ export default function TasksByDate() {
             <div>
                 {tasksByDate.map(({ dateKey, date, tasks: dateTasks }) => (
                     <div key={dateKey}>
-                        <div className="text-lg font-SFProSemibold my-1">
+                        <div className="text-lg font-SFProSemibold mb-1 mt-3">
                             {formatDateHeader(date)}
                         </div>
                         <div className="flex flex-col gap-2">
