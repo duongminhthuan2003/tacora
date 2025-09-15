@@ -15,8 +15,8 @@ export default function SettingsPage() {
     } = useSettingsStore();
 
     return (
-        <div className="p-6 max-w-2xl mx-auto font-SFProRegular">
-            <h1 className="text-2xl font-SFProSemibold text-gray-900 mb-6">Settings</h1>
+        <div className="pt-6 w-full lg:w-8/12 mx-auto font-SFProRegular">
+            <h1 className="text-xl font-SFProSemibold text-gray-900 mb-6">Settings</h1>
 
             <div className="bg-white rounded-xl border border-gray-200 p-6 mb-6">
                 <h2 className="text-lg font-SFProSemibold text-gray-900 mb-4">Undo time (Currently unavailable)</h2>

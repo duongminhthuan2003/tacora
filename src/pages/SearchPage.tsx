@@ -41,7 +41,7 @@ export default function SearchPage() {
     };
 
     return (
-        <div className="p-4">
+        <div className="p-4 lg:w-8/12 w-full mx-auto">
             <div className="mb-6">
                 <div className="relative">
                     <input

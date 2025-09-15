@@ -59,7 +59,7 @@ export default function TasksPage() {
     };
 
     return (
-        <div className="mx-auto max-w-3xl mt-6">
+        <div className="mx-auto w-full lg:w-8/12 mt-6">
             <div className="mb-4 flex items-center justify-between">
                 <h1 className="text-xl font-SFProSemibold">Tasks</h1>
                 <div className="flex items-center gap-2">

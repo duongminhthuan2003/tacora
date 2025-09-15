@@ -3,6 +3,7 @@ import { useMemo, useState } from "react";
 import type { Task } from "../types/TaskType.ts";
 import DeleteConfirmation from "./DeleteConfirmation.tsx";
 import UndoNotification from "./UndoNotification.tsx";
+import {AnimatePresence} from "framer-motion";
 
 type Status = "Incoming" | "Warning" | "Dangerous";
 
@@ -64,7 +65,7 @@ export default function TaskCard({ task, inConflict, onEdit }: TaskCardProps) {
     };
 
     return (
-        <>
+        <AnimatePresence>
             <div className="bg-tacora-light text-sm px-5 py-4 font-SFProRegular rounded-xl">
                 <div className="flex flex-row justify-center items-center">
                     <p className="text-lg font-SFProSemibold">{task.title}</p>
@@ -118,6 +119,6 @@ export default function TaskCard({ task, inConflict, onEdit }: TaskCardProps) {
                     onClose={handleCloseUndo}
                 />
             )}
-        </>
+        </AnimatePresence>
     );
 }

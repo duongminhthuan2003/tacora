@@ -40,7 +40,7 @@ export default function HomePage() {
     );
 
     return (
-        <div>
+        <div className="w-full lg:w-8/12 lg:mx-auto">
             <div>
                 <p className="font-SFProSemibold text-xl mt-8">
                     Summary
@@ -117,12 +117,13 @@ export default function HomePage() {
                             </div>
                         ))
                     }
-                    {sorted.length === 0 && (
-                        <div className="rounded-xl border border-dashed p-6 text-center text-gray-500">
+                </div>
+                
+                {sorted.length === 0 && (
+                        <div className="rounded-xl w-fit mx-auto border border-dashed py-6 px-20 text-center text-gray-500">
                             Press "Add task" in Tasks Page to add a new task.
                         </div>
                     )}
-                </div>
             </div>
 
             <EditTaskOverlay
