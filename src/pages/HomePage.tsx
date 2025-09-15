@@ -117,6 +117,11 @@ export default function HomePage() {
                             </div>
                         ))
                     }
+                    {sorted.length === 0 && (
+                        <div className="rounded-xl border border-dashed p-6 text-center text-gray-500">
+                            Press "Add task" in Tasks Page to add a new task.
+                        </div>
+                    )}
                 </div>
             </div>
 
