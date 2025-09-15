@@ -75,7 +75,7 @@ export default function TaskCard({ task, inConflict, onEdit }: TaskCardProps) {
 
                 <div className="flex flex-row md:flex-col md:gap-0.5">
                     <p>
-                        Due time: {new Date(task.dueAt).toLocaleDateString()} •{" "}
+                        Due time: {new Date(task.dueAt).toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' })} •{" "}
                         {new Date(task.dueAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
                     </p>
                     <div className="flex-1" />
