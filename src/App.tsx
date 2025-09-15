@@ -9,8 +9,8 @@ import SearchPage from "./pages/SearchPage.tsx";
 
 function App() {
   return (
-    <div className="fixed m-4 flex flex-col lg:flex-row gap-0 lg:gap-5 xl:gap-10">
-        <div className="w-full lg:w-3/12 xl:w-2/12">
+    <div className="m-4 flex flex-col lg:flex-row gap-0 lg:gap-5 xl:gap-10">
+        <div className="fixed w-full lg:w-3/12 xl:w-2/12">
             <NavigationBar />
         </div>
         <div className="w-full lg:w-9/12 xl:w-10/12">
